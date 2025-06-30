@@ -44,3 +44,14 @@ function showDicePopup() {
 }
 
 document.getElementById('btnRoll').addEventListener('click', showDicePopup);
+
+// Mostra il pulsante dopo aver scrollato un po'
+window.addEventListener('scroll', function() {
+  document.getElementById('scrollTopBtn').style.display =
+    window.scrollY > 900 ? 'flex' : 'none';
+});
+
+// Scrolla in cima alla pagina
+document.getElementById('scrollTopBtn').addEventListener('click', function() {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
