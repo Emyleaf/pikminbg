@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pikmin: Battaglia dei Giardini</title>
+  <!-- Bulma CSS CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <link rel="stylesheet" href="./css/style.css">
+  <!-- Google Fonts: Montserrat, Oswald e Noto Sans Symbols -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Oswald:wght@400;700&family=Noto+Sans+Symbols&display=swap" rel="stylesheet">
+  <!-- Bootstrap Icons per i dadi SVG -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+<body>
+  <div id="landing">
+    <!-- Assicurati che il logo abbia la classe "logo" -->
+    <img src="./img/logo.png" alt="Logo Gioco" class="logo">
+    <button id="btnRoll" class="button is-danger is-large pulsantini">Lancia i dadi</button>
+    <button id="btnReg" class="button is-info is-large pulsantini">Regolamento</button>
+  </div>
+  <div id="diceModal" class="modal">
+    <div class="modal-content">
+      <img src="./img/pikmindado.png" alt="Pikmin che lancia i dadi">
+      <div id="diceValues" class="is-flex is-justify-content-center" style="gap: 1rem; font-size: 3rem;">
+        <span id="diceEmoji1">-</span>
+        <span id="diceEmoji2">-</span>
+      </div>
+      <button id="closeModal">Chiudi</button>
+    </div>
+  </div>
+  <main id="mainContent">
+    <section>
+      <div class="has-text-centered mb-4">
+        <em>Un gioco da tavolo strategico per 2 giocatori</em>
+      </div>
+    </section>
+    <!-- 1. PANORAMICA -->
+    <section id="panoramica">
+      <div class="box">
+        <div class="is-flex is-align-items-center mb-2">
+          <img src="./img/pikminrun.png" alt="" class="mr-2" height="32">
+          <span class="title is-4 mb-0">1. PANORAMICA</span>
+        </div>
+        <hr style="border: 3px solid #4caf50; margin: 0 0 1rem 0;">
+        <p>
+          Due Capitani Pikmin competono per conquistare un Giardino entro la notte! Partendo dal centro della mappa, dovranno esplorare territori pericolosi, raccogliere tesori e sfruttare le abilità di comandanti Pikmin per ottenere più Punti Vittoria (PV) dell'avversario. Alla fine del quindicesimo turno, la giornata finisce e chi ha più PV vince la partita!
+        </p>
+      </div>
+    </section>
+    <!-- 2. COMPONENTI -->
+    <section id="componenti">
+      <div class="box">
+        <div class="is-flex is-align-items-center mb-2">
+          <img src="./img/pikminrun.png" alt="" class="mr-2" height="32">
+          <span class="title is-4 mb-0">2. COMPONENTI</span>
+        </div>
+        <hr style="border: 3px solid #4caf50; margin: 0 0 1rem 0;">
+        <ul>
+          <li><strong>19 Tessere della Mappa</strong>
+            <ul>
+              <li>1 Tessera Inizio (Area Navicella)</li>
+              <li>4 Tessere Acqua (2 con fiore gettone +1 Pikmin, 1 neutra)</li>
+              <li>4 Tessere Elettro (2 con fiore gettone +1 Pikmin, 1 neutra)</li>
+              <li>7 Tessere Pianura (4 con fiore gettone +1 Pikmin, 3 neutre)</li>
+              <li>3 Tessere Buco</li>
+            </ul>
+          </li><br>
+          <li><strong>90 Segnalini Pikmin</strong>
+            <ul>
+              <li>30 rossi</li>
+              <li>30 gialli</li>
+              <li>30 blu</li>
+            </ul>
+          </li>
+        </ul>
+        <br>
+        <article class="message is-info">
+          <div class="message-body">
+            Per ciascun gruppo di Pikmin troveremo 15 con base bianca per il Giocatore1 e 15 con base nera per il Giocatore2. Il massimo di Pikmin per ogni giocatore è 20.
+          </div>
+        </article>
+        <ul>
+          <li><strong>60 Carte Oggetto</strong>
+            <ul>
+              <li>15 Frutta</li>
+              <li>10 Tesori</li>
+              <li>10 Gettoni</li>
+              <li>15 Mostri</li>
+              <li>10 Speciali</li>
+            </ul>
+          </li>
+        </ul>
+        <br>
+        <article class="message is-info">
+          <div class="message-body">
+            Ogni carta Oggetto, quando estratta, produce un Segnalino corrispondente (mostro, frutta, tesoro, gettone, ecc.) da posizionare sulla tessera.
+          </div>
+        </article>
+        <ul>
+          <li><strong>16 Carte Obiettivo Segreto</strong>
+            <ul>
+              <li>8 Carte Obiettivo di “Fine Partita”, che verranno conteggiate dopo il turno 15.</li>
+              <li>8 Carte Obiettivo di “Sfida”, che verranno conteggiate appena risolte le condizioni.</li>
+            </ul>
+          </li>
+        </ul>
+        <br>
+        <article class="message is-info">
+          <div class="message-body">
+            Ogni giocatore pesca 3 carte Obiettivo Segreto all’inizio. E' possibile scartare un Obiettivo Segreto e pescarne un altro per 2 PA.
+          </div>
+        </article>
+
+        <ul>
+          <li><strong>Segnalini mostri e risorse vari (frutta, tesoro, gettoni)</strong></li>
+          <li><strong>Segnalini danno</strong></li>
+          <li><strong>Indicatore Turno</strong></li>
+        </ul>
+      </div>
+    </section>
+    <!-- 3. PREPARAZIONE -->
+    <section id="preparazione">
+      <div class="box">
+        <div class="is-flex is-align-items-center mb-2">
+          <img src="./img/pikminrun.png" alt="" class="mr-2" height="32">
+          <span class="title is-4 mb-0">3. PREPARAZIONE</span>
+        </div>
+        <hr style="border: 3px solid #4caf50; margin: 0 0 1rem 0;">
+        <ol>
+          <li><strong>Assemblare il tabellone</strong> posizionando le 19 tessere in configurazione esagonale. La tessera centrale è sempre la tessera Inizio (Area Navicella).</li><br>
+          <li><strong>Piazzare gli oggetti</strong>: mescolare le carte oggetto e assegnarne ognuna per ogni tessera, pescando una Carta Oggetto a caso e risolvendola immediatamente <em>(se è un gettone, piazza il Segnalino Gettone; se è un mostro, piazza il segnalino mostro corrispondente; se è una frutta o un tesoro, piazza il corrispondente Segnalino, ecc.)</em>. Una volta risolte e assegnati i corrispettivi segnalini, tenete le carte accanto al tabellone fino a quando un segnalino di una rispettiva carta non viene tolto dalla mappa: le carte contengono informazioni che vi possono servire!</li><br>
+          <li><strong>Setup giocatori</strong>:
+            <ul>
+              <li>Ogni giocatore inizia dal centro e posiziona 3 Pikmin di partenza, 1 per ogni colore.</li>
+              <li>Pesca 2 Carte Obiettivo Segreto.</li>
+            </ul>
+          </li>
+        </ol>
+      </div>
+    </section>
+    <!-- 4. TIPI DI PIKMIN -->
+    <section id="pikmin">
+      <div class="box">
+        <div class="is-flex is-align-items-center mb-2">
+          <img src="./img/pikminrun.png" alt="" class="mr-2" height="32">
+          <span class="title is-4 mb-0">4. TIPI DI PIKMIN</span>
+        </div>
+        <hr style="border: 3px solid #4caf50; margin: 0 0 1rem 0;">
+        <ul>
+          <li><strong class="has-text-danger">Rossi</strong>: ogni gruppo di 3 Pikmin Rossi ha +1 ai tiri di Attacco.</li>
+          <li><strong class="has-text-info">Blu</strong>: possono attraversare zone acquatiche e possono trasportare 1 Pikmin di qualsiasi colore in territorio Acqua (anche sostare).</li>
+          <li><strong class="has-text-warning">Gialli</strong>: possono entrare in territorio Elettro e la loro presenza in un territorio Elettro permette ad altri Pikmin di attraversare quel territorio (ma non sostarci.</li>
+        </ul>
+      </div>
+    </section>
+    <!-- 5. SEQUENZA DI TURNO -->
+    <section id="turno">
+      <div class="box">
+        <div class="is-flex is-align-items-center mb-2">
+          <img src="./img/pikminrun.png" alt="" class="mr-2" height="32">
+          <span class="title is-4 mb-0">5. SEQUENZA DI TURNO</span>
+        </div>
+        <hr style="border: 3px solid #4caf50; margin: 0 0 1rem 0;">
+        <p>La partita dura 15 turni. In ogni turno:</p>
+        <ol>
+          <li><strong>Giocatore 1</strong> svolge tutte le sue azioni (4 PA totali).</li>
+          <li><strong>Giocatore 2</strong> svolge tutte le sue azioni (4 PA totali).</li>
+          <li>Si avanza di 1 nel segnalino <strong>Indicatore Turno</strong>. Se l'Indicatore Turno segna 15 quando è il momento di avanzare, la partita finisce.</li>
+          <li>Si risolvono gli effetti di “Fine Turno” (riempimento tessere vuote, bonus stagionali ecc.).</li>
+        </ol><br>
+        <p>Ogni giocatore dispone di <strong>4 Punti Azione (PA)</strong> a turno e può spenderli liberamente nelle seguenti azioni:</p>
+        <div class="table-container">
+          <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+            <thead>
+              <tr>
+                <th>Azione</th>
+                <th>PA</th>
+                <th>Dettagli</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Movimento</strong></td>
+                <td>1</td>
+                <td>Sposta un gruppo di Pikmin da una tessera ad un’altra adiacente, rispettando le regole del terreno (vedi 5.1). I gruppi possono essere di qualsiasi numero e qualsiasi mix di colori.</td>
+              </tr>
+              <tr>
+                <td><strong>Raccogliere</strong></td>
+                <td>1</td>
+                <td>Raccoglie un segnalino da una tessera in cui ci sono Pikmin (vedi 5.2).</td>
+              </tr>
+              <tr>
+                <td><strong>Generare Pikmin</strong></td>
+                <td>1</td>
+                <td>Si può spendere 1 PA per generare 1 Pikmin nell'Area Navicella se in una tessera con Gettone si ha almeno 1 Pikmin (una volta per tessera).</td>
+              </tr>
+              <tr>
+                <td><strong>Combattere</strong></td>
+                <td>1</td>
+                <td>Iniziare una battaglia contro un Mostro o contro Pikmin avversari presenti nella stessa tessera (vedi 5.4).</td>
+              </tr>
+              <tr>
+                <td><strong>Convertire</strong></td>
+                <td>1</td>
+                <td>Scambia i Pikmin presenti nell'Area Navicella con nuovi Pikmin di qualsiasi colore <em>(puoi ridistribuire come preferisci: es. 7 Pikmin Rossi → 3 Blu + 3 Gialli + 1 Rosso)</em>.</td>
+              </tr>
+              <tr>
+                <td><strong>Scartare Obiettivo Segreto</strong></td>
+                <td>2</td>
+                <td>Scarta un Obiettivo Segreto e pescane un altro dal mazzo Obiettivi Segreti.</td>
+              </tr>
+              <tr>
+                <td><strong>Usare Potenziamento</strong></td>
+                <td>X</td>
+                <td>Usa un potenziamento nel tuo zaino e poi scartalo. Il costo in PA dipende dal potenziamento.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <br>
+        <h4 class="mt-4 mb-2">5.1 MOVIMENTO</h4>
+        <p>I giocatori possono spendere 1 PA per spostare un gruppo qualsiasi di Pikmin da una tessera a un'altra adiacente rispettando le regole del terreno.</p>
+        <ul>
+          <li>Terreno <strong>Pianura</strong>: possono attraversarlo e sostarci qualsiasi Pikmin.</li>
+          <li>Terreno <strong>Acqua</strong>: possono attraversarlo e sostarci solo i Pikmin <strong>Blu</strong>. I Pikmin Blu possono portare 1 altro Pikmin qualsiasi con sé, permettendogli di attraversare e sostare su questo terreno.
+            <br><em>Esempio: Su una tessera sono presenti 3 Pikmin Gialli e 2 Pikmin Blu. I tuoi Pikmin Blu possono “caricare” 2 Pikmin Gialli e spostarsi insieme verso o attraverso la tessera Acqua! Purtroppo 1 Pikmin Giallo dovrà rimanere lì dov'è… 🌱</em>
+          </li>
+          <li>Terreno <strong>Elettro</strong>: possono attraversarlo e sostarci solo i Pikmin <strong>Gialli</strong>. Se c'è almeno 1 Pikmin Giallo nel territorio, gli altri Pikmin possono attraversarlo ma non sostarci.
+            <br><em>Esempio: Su una tessera Elettro è presente 1 Pikmin Giallo. Il tuo Pikmin Rosso in tessera confinante vuole attraversare: può passare, ma non fermarsi lì, deve muoversi di nuovo e passare in un altro terreno. Qualunque Pikmin di colore diverso dal Giallo resta folgorato se si trova in un terreno Elettro a fine turno! ⚡</em>
+          </li>
+          <li>Terreno <strong>Buco</strong>: impraticabili.</li>
+        </ul><br>
+        <article class="message is-info">
+          <div class="message-body">
+            <ul>
+              <li><strong>sostare</strong> in un terreno significa rimanerci fino alla fine del turno!</li>
+              <li>non c'è limite di Pikmin spostabili contemporaneamente!</li>
+              <li>è sempre possibile spostare per esempio prima un gruppo di 5 Pikmin e in un'altra azione un gruppo di 3 del solito gruppo!</li>
+            </ul>
+          </div>
+        </article>
+        <br>
+        <h4 class="mt-4 mb-2">5.2 RACCOGLIERE</h4>
+        <p>I giocatori possono spendere 1 PA per raccogliere un segnalino presente su una tessera occupata da Pikmin. E' possibile raccogliere:</p>
+        <ul>
+          <li><strong>Mostri sconfitti</strong>: conferiscono Punti Vittoria.</li>
+          <li><strong>Frutta</strong>: conferiscono Punti Vittoria.</li>
+          <li><strong>Tesori</strong>: conferiscono Punti Vittoria.</li>
+          <li><strong>Potenziamenti</strong>: conferiscono Potenziamenti da utilizzare.</li>
+          <li><strong>Gettoni</strong>: conferiscono 5 Pikmin.</li>
+        </ul><br>
+        <p>
+          Per raccogliere qualcosa:
+          <ul>
+            <li>I Pikmin devono essere nella stessa tessera dell'oggetto.</li>
+            <li>I Pikmin devono avere il controllo di quella tessera <em>(ci devono essere più Pikmin dell'avversario; in caso di pareggio non si può raccogliere l'oggetto)</em>.</li>
+            <li>L'oggetto non deve essere già raccolto. In questo caso, bisogna prima combattere il gruppo di Pikmin che sta trasportando l'oggetto.</li>
+            <li>Ogni oggetto ha un peso che corrisponde al numero di Pikmin necessari per sollevare l'oggetto.</li>
+            <li>Alcuni oggetti richiedono tipi specifici di Pikmin.</li>
+          </ul><br>
+        </p>
+        <p>
+          Una volta raccolto un segnalino, per poterne usufruire, va riportato in base. I Pikmin dovranno quindi muoversi in gruppo per ritornare all'Area Navicella. Durante il tragitto per tornare alla base, dovrete passare per i territori sicuri che non contengono dei mostri: vi attaccherebbero e vi farebbero perdere l'oggetto!
+        </p><br>
+        <article class="message is-info">
+          <div class="message-body">
+            I mostri attaccheranno i Pikmin solo se si trovano nella stessa tessera e stanno trasportando qualcosa! Risolta questa condizione, procedete nel seguente modo:
+            <ul>
+              <li>tirate 1 dado: il risultato è il numero di Pikmin persi!</li>
+              <li>l'oggetto cade e rimane nella stessa tessera del mostro; per poterlo raccogliere va prima sconfitto il mostro</li>
+            </ul>
+          </div>
+        </article>
+        <br>
+        <h4 class="mt-4 mb-2">5.3 GENERARE PIKMIN</h4>
+        <p>
+          I giocatori possono spendere 1 PA per generare 1 Pikmin in base.<br>
+          E' possibile spendere 1 PA per ogni tessera con Fiore Gettone in cui c'è almeno 1 Pikmin (una volta per tessera). I Pikmin generati dipendono dal luogo del Gettone:
+        </p>
+        <ul>
+          <li>Gettone <strong>Pianura</strong>: Pikmin <strong class="has-text-danger">Rossi</strong></li>
+          <li>Gettone <strong>Acqua</strong>: Pikmin <strong class="has-text-info">Blu</strong></li>
+          <li>Gettone <strong>Elettro</strong>: Pikmin <strong class="has-text-warning">Gialli</strong></li>
+        </ul>
+        <br>
+        <h4 class="mt-4 mb-2">5.4 COMBATTERE</h4>
+        <p>
+          I giocatori possono spendere 1 PA per iniziare una battaglia contro un mostro o contro i Pikmin avversari.<br>
+          In genere, una battaglia consiste in questi passaggi:
+        </p>
+        <ul>
+          <li>Decidere se utilizzare o meno dei potenziamenti.</li>
+          <li>Poi tirate i due dadi (sono 2d12 con le facce che vanno da 0 a 3). L’attaccante infligge danni pari al risultato del dado più alto e il difensore infligge danni pari al risultato del dado più basso. Ogni giocatore può infliggere al massimo un numero di danni pari al numero dei suoi guerrieri presenti nel territorio dove si svolge la battaglia.</li>
+          <li>In seguito rimuovete i Pikmin. I Pikmin da rimuovere sono scelti dal giocatore che subisce i danni: deve comunque rimuovere dal terreno della battaglia tutti i Pikmin persi prima di poter fare altre cose.</li>
+        </ul>
+        <br>
+        <p>
+          Un mostro viene sconfitto solo se i suoi punti vita vengono portati a zero. Quando un mostro viene sconfitto, se i Pikmin sono abbastanza, raccolgono automaticamente il mostro senza spendere 1 PA.<br>
+          Se un gruppo di Pikmin combatte contro un altro gruppo di Pikmin che stanno trasportando un oggetto, l'oggetto cade e rimane sulla tessera se il numero di Pikmin non è più sufficiente per trasportare l'oggetto.
+        </p>
+        <br>
+        <h4 class="mt-4 mb-2">5.5 CONVERTIRE</h4>
+        <p>
+          I giocatori possono spendere 1 PA per mandare i propri Pikmin presenti nell'Area Navicella nella navicella, scambiandone il tipo come preferiscono.<br>
+          <em>Es. ho 7 Pikmin rossi nella zona centrale, li mando nella navicella, ne prendo 3 blu, 3 gialli e 1 rosso.</em>
+        </p><br>
+        <h4 class="mt-4 mb-2">5.6 FINE TURNO</h4>
+        <p>
+          Una volta che i giocatori hanno eseguito il loro turno, si avanza di 1 nel timer giornata. Se il timer deve avanzare e siamo al turno 15, il gioco finisce e si conteggiano i punti vittoria. Ogni fine turno si controllano le seguenti cose:
+        </p>
+        <ul>
+          <li>Se un territorio è privo di segnalini, si gira una Carta Oggetto e si risolve su quel territorio, mettendo il segnalino corrispondente sul territorio.</li>
+        </ul>
+      </div>
+    </section>
+    <!-- 6. TIPI DI CARTE -->
+    <section id="carte">
+      <div class="box">
+        <div class="is-flex is-align-items-center mb-2">
+          <img src="./img/pikminrun.png" alt="" class="mr-2" height="32">
+          <span class="title is-4 mb-0">6. TIPI DI CARTE</span>
+        </div>
+        <hr style="border: 3px solid #4caf50; margin: 0 0 1rem 0;">
+        <p>
+          I segnalini corrispondenti contengono queste tre informazioni:
+        </p>
+        <ul>
+          <li>Stella: Sono i Punti Vittoria (PV) che forniscono al giocatore</li>
+          <li>Pesetto kg: Indica il Peso dell'oggetto (quindi quanti Pikmin servono per trasportarlo)</li>
+          <li>Pesetto <strong class="has-text-danger">rosso</strong> kg: Indica sempre il Peso ma permette 1 solo movimento a turno del gruppo Pikmin che lo sta trasportando</li>
+        </ul>
+        <h5 class="mt-4 mb-2">6.1 FRUTTA (15 carte)</h5>
+        <div class="table-container">
+          <table class="table is-bordered is-striped is-hoverable is-fullwidth">
+            <thead>
+              <tr>
+                <th>Quantità</th>
+                <th>Nome</th>
+                <th>PV</th>
+                <th>Peso</th>
+                <th>Effetto aggiuntivo</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>3x</td><td>Fragola</td><td>5</td><td>4</td><td>Nessuno</td></tr>
+              <tr><td>3x</td><td>Mela</td><td>3</td><td>3</td><td>Nessuno</td></tr>
+              <tr><td>3x</td><td>Ciliegia</td><td>1</td><td>1</td><td>Nessuno</td></tr>
+              <tr><td>3x</td><td>Uva</td><td>9</td><td>6</td><td>Nessuno</td></tr>
+              <tr><td>2x</td><td>Arancia</td><td>4</td><td>3</td><td>Nessuno</td></tr>
+              <tr><td>1x</td><td>Cocomero</td><td>16</td><td>9</td><td>Nessuno</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h5 class="mt-4 mb-2">6.2 TESORI (10 carte)</h5>
+        <div class="table-container">
+          <table class="table is-bordered is-striped is-hoverable is-fullwidth">
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>PV</th>
+                <th>Peso</th>
+                <th>Effetto aggiuntivo</th>
+                <th>Effetto</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Dente di Leone</td><td>4</td><td>7</td><td>Puoi oltrepassare i terreni non praticabili</td><td>Perm.</td></tr>
+              <tr><td>Paperella del Bagno</td><td>3</td><td>8</td><td>I tuoi Pikmin blu possono trasportare 2 Pikmin in territorio Acqua invece di 1</td><td>Perm.</td></tr>
+              <tr><td>Anello della Sposa</td><td>6</td><td>6</td><td>Scarta questa carta: genera 3 Pikmin di un colore a scelta nell'Area Navicella</td><td>Cons.</td></tr>
+              <tr><td>Peperoncino</td><td>4</td><td>6</td><td>Scarta questa carta: un tuo gruppo di Pikmin può spostarsi in un qualsiasi luogo della mappa con questo <strong>movimento extra</strong>.</td><td>Cons.</td></tr>
+              <tr><td>Spada Giocattolo</td><td>5</td><td>9</td><td>I tuoi Pikmin hanno +1 al combattimento contro Mostri</td><td>Perm.</td></tr>
+              <tr><td>Scudo Giocattolo</td><td>5</td><td>9</td><td>I tuoi Pikmin hanno +1 alla Difesa</td><td>Perm.</td></tr>
+              <tr><td>Lampadina</td><td>4</td><td>4</td><td>Scarta questa carta durante un combattimento: non prendi danno da quel combattimento</td><td>Cons.</td></tr>
+              <tr><td>Borsa di Semi</td><td>2</td><td>6</td><td>Tutte le tessere per te hanno un Fiore Gettone</td><td>Perm.</td></tr>
+              <tr><td>Mappa Segreta</td><td>3</td><td>3</td><td>Scambia di posto due tessere del tabellone (le tessere mantengono i segnalini)</td><td>Cons.</td></tr>
+              <tr><td>Mantello dell'Invisibilità</td><td>2</td><td>3</td><td>Scarta questa carta: scegli 1 tessera; i tuoi Pikmin sono invisibili fino al tuo prossimo turno (non sono visibili ai Mostri e ad altri Pikmin)</td><td>Cons.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h5 class="mt-4 mb-2">6.3 GETTONI (10 carte)</h5>
+        <div class="table-container">
+          <table class="table is-bordered is-striped is-hoverable is-fullwidth">
+            <thead>
+              <tr>
+                <th>Quantità</th>
+                <th>Nome</th>
+                <th>Peso</th>
+                <th>Note Speciali</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>3x</td><td>Gettone Rosso</td><td>3</td><td>Genera 3 Pikmin Rossi</td></tr>
+              <tr><td>3x</td><td>Gettone Blu</td><td>3</td><td>Genera 3 Pikmin Blu</td></tr>
+              <tr><td>3x</td><td>Gettone Giallo</td><td>3</td><td>Genera 3 Pikmin Gialli</td></tr>
+              <tr><td>1x</td><td>Gettone Arcobaleno</td><td>3</td><td>Genera 3 Pikmin di qualsiasi tipo</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h5 class="mt-4 mb-2">6.4 MOSTRI (15 carte)</h5>
+        <div class="table-container">
+          <table class="table is-bordered is-striped is-hoverable is-fullwidth">
+            <thead>
+              <tr>
+                <th>Quantità</th>
+                <th>Nome</th>
+                <th>PS</th>
+                <th>PV</th>
+                <th>Peso</th>
+                <th>Note Speciali</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>2x</td><td>Coleto</td><td>3</td><td>5</td><td>2</td><td>Nessun effetto</td></tr>
+              <tr><td>2x</td><td>Ranuca</td><td>2</td><td>6</td><td>2</td><td>Alla fine del turno ciascun giocatore perde 2 Pikmin in quella tessera</td></tr>
+              <tr><td>2x</td><td>Barbostatico</td><td>3</td><td>7</td><td>4</td><td>I Pikmin non gialli che combattono questo mostro vengono folgorati</td></tr>
+              <tr><td>2x</td><td>Eruptor igneo</td><td>4</td><td>8</td><td>4</td><td>I Pikmin non rossi che combattono questo mostro vengono bruciati</td></tr>
+              <tr><td>2x</td><td>Tarlo alato</td><td>2</td><td>3</td><td>3</td><td>Nessun effetto</td></tr>
+              <tr><td>2x</td><td>Granchio cipolla</td><td>3</td><td>9</td><td>5</td><td>I Pikmin che combattono questo mostro vengono congelati</td></tr>
+              <tr><td>1x</td><td>Scarabeo grancorno</td><td>7</td><td>18</td><td>8</td><td>Rimane con 1 PS se sta per morire</td></tr>
+              <tr><td>1x</td><td>Vermentilla squamata</td><td>9</td><td>21</td><td>7</td><td>Dopo aver subito un attacco sparisce sotto terra fino a quando non utilizzi 1 PA</td></tr>
+              <tr><td>1x</td><td>Crisantemo strisciante</td><td>10</td><td>24</td><td>10</td><td>Danneggia anche i Pikmin nelle tessere adiacenti</td></tr>
+              <tr><td>1x</td><td>Bulbico imperiale</td><td>11</td><td>27</td><td>12</td><td>Rigenera 1 PS alla fine del turno</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h5 class="mt-4 mb-2">6.5 SPECIALI (10 carte)</h5>
+        <div class="table-container">
+          <table class="table is-bordered is-striped is-hoverable is-fullwidth">
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>Costo PA</th>
+                <th>Effetto</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Nettare</td><td>0</td><td>Tutti i tuoi Pikmin ottengono +1 al tiro di combattimento per tutto il turno</td></tr>
+              <tr><td>Petardo</td><td>2</td><td>Danneggia tutti i bersagli all'interno di una tessera di 2 PS</td></tr>
+              <tr><td>Fischietto</td><td>0</td><td>Richiama tutti i tuoi Pikmin nell'Area Navicella: se stavano trasportando qualcosa, la lasciano cadere sulla tessera</td></tr>
+              <tr><td>Seme Miracoloso</td><td>1</td><td>Crea immediatamente 3 Pikmin nell'Area Navicella</td></tr>
+              <tr><td>Esca</td><td>1</td><td>Distrai 1 Mostro con meno di 4 PS, rendendolo inerme per il resto del turno <em>(non ti attacca)</em></td></tr>
+              <tr><td>Orologio Strano</td><td>2</td><td>Blocca 1 attacco nemico… tornando indietro nel tempo?</td></tr>
+              <tr><td>Portale</td><td>0</td><td>Sposta fino a 6 Pikmin a tuo piacimento</td></tr>
+              <tr><td>Aculeo dell'Ape</td><td>1</td><td>Infliggi 2 danni immediati a un Mostro in una tessera adiacente (senza combattere)</td></tr>
+              <tr><td>Specchietto</td><td>0</td><td>Puoi giocare questa carta nel turno dell'avversario. Annulla l’effetto di una Carta Speciale avversaria giocata. Il turno dopo inizierai con 3 PA.</td></tr>
+              <tr><td>Occhiali da Sole</td><td>0</td><td>Guarda le prossime 3 carte del mazzo Oggetto, mettine 1 in fondo e riordina le altre in cima a piacere</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <br>
+        <article class="message is-info">
+          <div class="message-body">
+            <strong>Nota bene:</strong> Le carte Speciali possono essere giocate solo nel proprio turno, al costo in PA indicato <em>(se non specificato il contrario)</em>. Alcuni effetti sono istantanei, altri durano fino alla fine del turno.
+          </div>
+        </article>
+      </div>
+    </section>
+    <!-- 7. CARTE OBIETTIVO SEGRETO -->
+    <section id="obiettivi">
+      <div class="box">
+        <div class="is-flex is-align-items-center mb-2">
+          <img src="./img/pikminrun.png" alt="" class="mr-2" height="32">
+          <span class="title is-4 mb-0">7. CARTE OBIETTIVO SEGRETO</span>
+        </div>
+        <hr style="border: 3px solid #4caf50; margin: 0 0 1rem 0;">
+        <div class="table-container">
+          <table class="table is-bordered is-striped is-hoverable is-fullwidth">
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>Descrizione</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Collezionista di Frutta</td><td>Alla fine della partita, tutte le tue carte Frutta valgono il doppio.</td></tr>
+              <tr><td>Esploratore</td><td>Alla fine della partita, guadagni +2 PV ogni 3 tessere diverse controllate.</td></tr>
+              <tr><td>Conquistatore</td><td>Alla fine della partita, guadagni +3 PV per ogni Mostro recuperato.</td></tr>
+              <tr><td>Giardiniere</td><td>Alla fine della partita, guadagni +1 PV per ogni tessera Pianura controllata.</td></tr>
+              <tr><td>Archeologo</td><td>Alla fine della partita, i tuoi Tesori valgono +3 PV ciascuno.</td></tr>
+              <tr><td>Sopravvissuto</td><td>Se possiedi meno di 11 Pikmin totali a fine partita, guadagni +1 PV per ogni Pikmin rimasto.</td></tr>
+              <tr><td>Subacqueo</td><td>Alla fine della partita, +3 PV per ogni tessera Acqua controllata.</td></tr>
+              <tr><td>Elettricista</td><td>Alla fine della partita, +3 PV per ogni tessera Elettro controllata.</td></tr>
+              <tr><td>Cacciatore di Tarli</td><td>Quando sconfiggi un Tarlo, guadagna +2 PV e ripristina questa sfida se vuoi; scarta altrimenti.</td></tr>
+              <tr><td>Cacciatore di Coleti</td><td>Quando sconfiggi un Coleto, guadagna +3 PV e ripristina questa sfida se vuoi; scarta altrimenti.</td></tr>
+              <tr><td>Cappuccetto Rosso</td><td>Quando raccogli una Mela, guadagna +5 PV e ripristina questa sfida se vuoi; scarta altrimenti.</td></tr>
+              <tr><td>Pikmident Evil</td><td>In un combattimento fra Pikmin, guadagna Pikmin quanti ne perde l'avversario. Passa questa carta al tuo avversario.</td></tr>
+              <tr><td>Pentola Arcobaleno</td><td>Quando ottieni un Gettone puoi usarlo come un Gettone Arcobaleno. Scarta questa carta.</td></tr>
+              <tr><td>Funghidemia</td><td>Se in questo turno non ti sei mosso, guadagni +1 Pikmin a scelta in ogni tessera con Pikmin. Scarta questa carta.</td></tr>
+              <tr><td>I need a Hero!</td><td>Se hai appena affrontato un mostro, uno dei tuoi Pikmin diventa un eroe: infliggi 3 danni al mostro e recupera i Pikmin persi. Scarta questa carta.</td></tr>
+              <tr><td>Carica dei 101 Pikmin</td><td>Se ti sei mosso 4 volte in questo turno, guadagni +4 PV. Scarta questa carta.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <br>
+        <article class="message is-info">
+          <div class="message-body">
+            <strong>Nota sul Controllo Territorio:</strong> Un giocatore controlla una tessera se, alla fine del turno avversario, ha più Pikmin (totali, di qualsiasi colore) di quelli dell’avversario. In caso di pareggio, la tessera non è controllata da nessuno.
+          </div>
+        </article>
+      </div>
+    </section>
+    <!-- 8. CALCOLO PUNTEGGIO FINALE -->
+    <section id="punteggio">
+      <div class="box">
+        <div class="is-flex is-align-items-center mb-2">
+          <img src="./img/pikminrun.png" alt="" class="mr-2" height="32">
+          <span class="title is-4 mb-0">8. CALCOLO PUNTEGGIO FINALE</span>
+        </div>
+        <hr style="border: 3px solid #4caf50; margin: 0 0 1rem 0;">
+        <p>
+          Alla fine del <strong>Turno 15</strong>, dopo che il Giocatore 2 ha completato le proprie azioni e risolto la fase di “Fine Turno”, calcoliamo i PV:
+        </p>
+        <ol>
+          <li>Punti delle Carte Oggetto ottenute</li>
+          <li>Punti Obiettivi Segreti</li>
+        </ol><br>
+        <p>
+          Chi ha il totale più alto vince! In caso di pareggio, vince il giocatore che controlla più tessere. In caso di ulteriore pareggio, chi ha più Pikmin! Un ulteriore pareggio? Siete entrambi vincitori!
+        </p>
+      </div>
+    </section>
+    <!-- 9. VARIANTI AVANZATE -->
+    <section id="varianti">
+      <div class="box">
+        <div class="is-flex is-align-items-center mb-2">
+          <img src="./img/pikminrun.png" alt="" class="mr-2" height="32">
+          <span class="title is-4 mb-0">9. VARIANTI AVANZATE</span>
+        </div>
+        <hr style="border: 3px solid #4caf50; margin: 0 0 1rem 0;">
+        <h5>9.1 MODALITÀ STAGIONI</h5>
+        <p>Ogni 3 turni cambia stagione, modificando le regole. La stagione iniziale è randomizzata.</p>
+        <ul>
+          <li><strong>Primavera</strong>: +1 Pikmin Generati quando generi Pikmin</li>
+          <li><strong>Estate</strong>: +1 movimento per i Pikmin blu</li>
+          <li><strong>Autunno</strong>: +1 ai tiri di combattimento</li>
+          <li><strong>Inverno</strong>: -1 ai tiri di combattimento</li>
+        </ul><br>
+        <h5>9.2 MODALITÀ METEOROLOGICA</h5>
+        <p>All'inizio di ogni turno, il primo giocatore lancia 1d6:</p>
+        <ul>
+          <li>1-2: Nessun evento</li>
+          <li>3: <strong>Pioggia</strong> - Pikmin Blu +2 movimento</li>
+          <li>4: <strong>Sole Cocente</strong> - Pikmin Rossi +1 combattimento</li>
+          <li>5: <strong>Tempesta di Ghiaccio</strong> - Nessun movimento questo turno</li>
+          <li>6: <strong>Giornata Perfetta</strong> - +1 movimento a tutti i Pikmin</li>
+        </ul><br>
+        <h5>9.3 MODALITÀ ASIMMETRICA</h5>
+        <p>Ogni giocatore inizia con un capitano diverso con abilità uniche!</p>
+        <ul>
+          <li>
+            <strong>Prunella</strong>
+            <ul>
+              <li><em>Durante il suo addestramento da Capitana ha dato fuoco al campus. Contrariamente a quello che si possa pensare, è stata promossa proprio per questo!</em></li>
+              <li><strong>Abilità Attiva (3 PA):</strong> “Ops” – infliggi in una tessera non Acqua 1 danno.</li>
+            </ul>
+          </li>
+          <li>
+            <strong>Mareno</strong>
+            <ul>
+              <li><em>Un grande amante dell'acqua, ma non sa nuotare. Almeno, non senza i suoi braccioli. Ad essere sincero nemmeno con quelli.</em></li>
+              <li><strong>Abilità Attiva (3 PA):</strong> “Splash” – scegli una tessera Acqua: i Pikmin non blu adiacenti a quella tessera vengono inondati.</li>
+            </ul>
+          </li>
+          <li>
+            <strong>Fulminio</strong>
+            <ul>
+              <li><em>Ci sono tante leggende sul suo nome: chi dice che sia stato fulminato, chi dice sia il figlio di Zeus… però la realtà è abbastanza evidente.</em></li>
+              <li><strong>Abilità Attiva (3 PA):</strong> “BZZ” – scegli una tessera Elettro: i Pikmin non gialli adiacenti a quella tessera non si possono muovere.</li>
+            </ul>
+          </li>
+        </ul><br>
+        <h5>9.4 MODALITÀ NAVICELLA DISPERSA</h5>
+        <p>Posizionate tutte le tessere casualmente, compresa quella centrale! <em>(Se viene fuori una combinazione di tessere tale per cui siete bloccati, rifate la configurazione)</em></p>
+        <br>
+        <h5>9.5 MODALITÀ ESPLORAZIONE</h5>
+        <p>In questa modalità le tessere non hanno nessun segnalino. Una volta che un Pikmin entra in una tessera, può gratuitamente esplorarla e pescare una carta Oggetto, posizionando il relativo segnalino.</p>
+        <br>
+        <h5>9.6 MODALITÀ COOPERATIVA</h5>
+        <p>Due giocatori uniscono le forze contro un “IA” gestita da un mazzo <strong>Eventi</strong>:</p>
+        <ul>
+          <li>Ogni <strong>Fine Turno</strong>, si pesca 1 Carta Evento: piazza nuovi Mostri, aumenta PS di quelli esistenti, crea ostacoli.</li>
+          <li>L’obiettivo comune è sconfiggere tutti i Mostri boss prima del turno 15.</li>
+          <li>Se i Mostri conquistano la tessera Inizio o se appare un Mostro Boss prima del turno 5, i giocatori perdono immediatamente.</li>
+          <li>Se i giocatori completano obiettivi (es. sconfitta 5 Mostri, controllo di 4 tessere centrali), ottengono aiuti extra (bonus carte Speciali).</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+  <!-- SweetAlert2 CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="./js/main.js"></script>
+</body>
+</html>
